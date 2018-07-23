@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LeakyAppClient.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,15 +9,18 @@ namespace LeakyAppClient.Controllers
   [Route("api/data")]
   public class DataController : ControllerBase
   {
+    private IDataServer dataServer;
+
     public DataController(IDataServer dataServer)
     {
-
+      this.dataServer = dataServer;
     }
 
     [HttpGet]
-    public ActionResult<string> GetAsync()
+    [Produces("application/json")]
+    public ActionResult<List<string>> GetAsync()
     {
-      return "Hello World";
+      return this.dataServer.GetData();
     }
   }
 }
